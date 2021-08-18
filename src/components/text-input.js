@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
 import { TextInput as TextInputPaper } from 'react-native-paper';
 
 type TextInputProps = React.ComponentProps<typeof TextInputPaper>;
 
-export const TextInputIcon = TextInputPaper.Icon;
-export const TextInput = (props: TextInputProps) => (
-    <TextInput { ...props } style={ [styles.input, props.style] }/>
+const TextInput = (props: TextInputProps) => (
+    <TextInputPaper { ...props } style={ [styles.input, props.style] }/>
 );
 
 const styles = StyleSheet.create({
@@ -16,3 +15,5 @@ const styles = StyleSheet.create({
         marginHorizontal: 30
     }
 });
+
+export default TextInput;
