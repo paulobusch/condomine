@@ -1,8 +1,13 @@
 import * as React from 'react';
 import { AppRegistry } from 'react-native';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
-import { name as appName } from './app.json';
+import { Provider as StoreProvider } from 'react-redux';
+import { applyMiddleware, createStore } from 'redux';
+import reduxThunk from 'redux-thunk';
+
+import rootReducer from './src/reducers';
 import CondomineApp from './src/condomine-app';
+import { name as appName } from './app.json';
 
 const theme = {
   ...DefaultTheme,
@@ -19,11 +24,15 @@ const theme = {
   }
 };
 
+const store = applyMiddleware(reduxThunk)(createStore)(rootReducer);
+
 export default function Main() {
   return (
-    <PaperProvider theme={theme}>
-      <CondomineApp />
-    </PaperProvider>
+    <StoreProvider store={ store }>
+      <PaperProvider theme={ theme }>
+        <CondomineApp />
+      </PaperProvider>
+    </StoreProvider>
   );
 }
 
