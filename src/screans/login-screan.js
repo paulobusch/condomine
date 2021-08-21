@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Snackbar } from "react-native-paper";
 import { connect } from "react-redux";
 
@@ -18,6 +18,7 @@ class LoginScreen extends Component {
         super(props);
 
         this.state = { 
+            loading: false,
             showPassword: false,
             showSnackbar: false,
             message: ''
@@ -33,7 +34,7 @@ class LoginScreen extends Component {
 
         return (
             <Screan style={ styles.container }>
-                <ScrollView style={ styles.form }>
+                <View style={ styles.form }>
                     <HeaderTitle title={ displayName }/>
                     <TextInput 
                         style={ { marginTop: 0 } }
@@ -52,16 +53,17 @@ class LoginScreen extends Component {
                     />
                     <Button 
                         label="ENTRAR"
+                        loading={ this.state.loading }
                         onPress={ () => this.loginAsync() }
                     />
-                </ScrollView>
-                <ScrollView>
+                </View>
+                <View style={ styles.bottom }>
                     <Separator label="Não tenho uma conta"/>
                     <Button outlined
                         label="CRIAR CONTA"
                         onPress={ () => console.log('Login') }
                     />
-                </ScrollView>
+                </View>
                 { this.snackbar() }
             </Screan>
         );
@@ -69,10 +71,27 @@ class LoginScreen extends Component {
 
     async loginAsync() {
         const { loginForm, loginAsync } = this.props;
+        this.setState({ loading: true });
         try {
             await loginAsync(loginForm);
-        } catch {
-            this.openSnackbar('Usuário/Senha inválidos');
+            this.props.navigation.replace('Ambiences');
+        } catch (error) {
+            this.openSnackbar(this.getMessageByError(error.code));
+        }
+        this.setState({ loading: false });
+    }
+
+    getMessageByError(code) {
+        switch(code) {
+            case 'auth/invalid-email': 
+                return 'E-mail inválido. Utilize este formato exemplo@email.com';
+            case 'auth/user-disabled': 
+                return 'O usuário foi desabilitado';
+            case 'auth/user-not-found': 
+            case 'auth/wrong-password':
+                return 'Usuário ou Senha inválidos';
+            default: 
+                return 'Erro desconhecido';
         }
     }
 
@@ -87,13 +106,9 @@ class LoginScreen extends Component {
     snackbar() {
         return (
             <Snackbar
-                duration={ 3000 }
+                duration={ 5000 }
                 visible={ this.state.showSnackbar }
                 onDismiss={ () => this.closeSnackbar() }
-                action={ {
-                    label: 'FECHAR',
-                    onPress: () => this.closeSnackbar()
-                } }
             >
                 { this.state.message }    
             </Snackbar>
@@ -107,6 +122,9 @@ const styles = StyleSheet.create({
     },
     form: {
         flexGrow: 1
+    },
+    bottom: {
+        flexShrink: 1
     }
 });
 

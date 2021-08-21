@@ -1,15 +1,12 @@
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from 'react-navigation-stack';
 
-import LoginScreen from './screans/login';
+import LoginScreen from './screans/login-screan';
+import AmbienceScreen from './screans/ambience-screan';
 
 const AppNavigator = createStackNavigator({
-  Login: {
-    screen: LoginScreen,
-    navigationOptions: {
-      title: 'Bem vindo'
-    }
-  }
+  Ambiences: { screen: AmbienceScreen },
+  Login: { screen: LoginScreen }
 }, {
   defaultNavigationOptions: {
     headerShown: false

@@ -16,7 +16,8 @@ const Button = (props: ButtonProps) => {
                     ? colors.background
                     : colors.primary 
                 },
-                props.outlined ? styles.outlined : null
+                props.outlined ? styles.outlined : null,
+                props.style
             ] }
             contentStyle={ styles.content }
         >        
