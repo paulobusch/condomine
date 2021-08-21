@@ -2,13 +2,13 @@ import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from 'react-navigation-stack';
 
 import LoginScreen from './screans/login-screan';
-import AmbienceScreen from './screans/ambience-screan';
-import CreateUserScrean from "./screans/create-user-screan";
+import Ambientescreen from './screans/ambientes-screan';
+import CreateUserScrean from "./screans/cadastrar-usuario-screan";
 
 const AppNavigator = createStackNavigator({
-  Login: { screen: LoginScreen },
+  Ambientes: { screen: Ambientescreen },
   CreateUser: { screen: CreateUserScrean },
-  Ambiences: { screen: AmbienceScreen },
+  Login: { screen: LoginScreen },
 }, {
   defaultNavigationOptions: {
     headerShown: false

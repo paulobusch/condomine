@@ -6,12 +6,12 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 
 import { displayName } from '../../app.json';
-import Button from "../components/button";
+import Button from "../components/buttons/button";
 import Screan from "../components/screan";
 import HeaderTitle from "../components/header";
 import Separator from "../components/separator";
-import TextInput from "../components/text-input";
-import TextInputIcon from "../components/text-input-icon";
+import TextInput from "../components/text-input/text-input";
+import TextInputIcon from "../components/text-input/text-input-icon";
 
 import { loginAsync } from '../reducers/usuario/usuario-actions';
 
@@ -116,7 +116,7 @@ class LoginScreen extends Component {
         this.setState({ loading: true });
         try {
             await loginAsync(values);
-            navigation.replace('Ambiences');
+            navigation.replace('Ambientes');
             resetForm();
         } catch (error) {
             this.openSnackbar(this.getMessageByError(error.code));

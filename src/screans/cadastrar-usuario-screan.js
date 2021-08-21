@@ -6,9 +6,9 @@ import * as yup from 'yup';
 
 import HeaderTitle from '../components/header';
 import Screan from '../components/screan';
-import Button from "../components/button";
-import TextInput from "../components/text-input";
-import TextInputIcon from "../components/text-input-icon";
+import Button from "../components/buttons/button";
+import TextInput from "../components/text-input/text-input";
+import TextInputIcon from "../components/text-input/text-input-icon";
 
 import { cadastrarAsync } from '../reducers/usuario/usuario-actions';
 import { Snackbar } from 'react-native-paper';
@@ -159,7 +159,7 @@ class CreateUserScrean extends Component {
         this.setState({ loading: true });
         try {
             await cadastrarAsync(values);
-            navigation.replace('Ambiences');
+            navigation.replace('Ambientes');
             resetForm();
         } catch (error) {
             this.openSnackbar(this.getMessageByError(error.code));
