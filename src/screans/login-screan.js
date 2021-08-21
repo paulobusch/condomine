@@ -30,18 +30,20 @@ class LoginScreen extends Component {
     }
 
     render() {
-        const { loginForm, setField } = this.props;
+        const { loginForm, setField, navigation } = this.props;
 
         return (
             <Screan style={ styles.container }>
+                <HeaderTitle title={ displayName }/>
                 <View style={ styles.form }>
-                    <HeaderTitle title={ displayName }/>
                     <TextInput 
+                        label="E-main"
                         style={ { marginTop: 0 } }
                         value={ loginForm.email }
+                        keyboardType="email-address"
+                        autoCapitalize="none"
                         onChangeText={ value => setField('email', value) }
-                        label="E-main"
-                        left={ <TextInputIcon name="mail" /> }
+                        left={ <TextInputIcon name="envelope" /> }
                     />
                     <TextInput 
                         label="Senha"
@@ -61,7 +63,7 @@ class LoginScreen extends Component {
                     <Separator label="Não tenho uma conta"/>
                     <Button outlined
                         label="CRIAR CONTA"
-                        onPress={ () => console.log('Login') }
+                        onPress={ () => navigation.navigate('CreateUser') }
                     />
                 </View>
                 { this.snackbar() }

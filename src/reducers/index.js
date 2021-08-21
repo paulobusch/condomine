@@ -1,10 +1,12 @@
 import { combineReducers } from "redux";
 
 import loginForm from './login-form/login-form-reducer';
+import createUserForm from './create-user-form/create-user-form-reducer';
 import user from './user/user-reducer';
 
 export default combineReducers({
     user,
 
     loginForm,
+    createUserForm
 });

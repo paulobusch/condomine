@@ -3,10 +3,12 @@ import { createStackNavigator } from 'react-navigation-stack';
 
 import LoginScreen from './screans/login-screan';
 import AmbienceScreen from './screans/ambience-screan';
+import CreateUserScrean from "./screans/create-user-screan";
 
 const AppNavigator = createStackNavigator({
+  CreateUser: { screen: CreateUserScrean },
+  Login: { screen: LoginScreen },
   Ambiences: { screen: AmbienceScreen },
-  Login: { screen: LoginScreen }
 }, {
   defaultNavigationOptions: {
     headerShown: false
