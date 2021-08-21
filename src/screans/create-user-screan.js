@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -10,7 +10,7 @@ import Button from "../components/button";
 import TextInput from "../components/text-input";
 import TextInputIcon from "../components/text-input-icon";
 
-import { cadastrarAsync } from '../reducers/create-user-form/create-user-form-actions';
+import { cadastrarAsync } from '../reducers/usuario/usuario-actions';
 import { Snackbar } from 'react-native-paper';
 
 class CreateUserScrean extends Component {
@@ -19,6 +19,7 @@ class CreateUserScrean extends Component {
 
         this.state = { 
             loading: false,
+            mostrarErros: false,
             mostrarSenha: false,
             mostrarConfirmacaoSenha: false,
             mostrarSnackbar: false,
@@ -62,13 +63,18 @@ class CreateUserScrean extends Component {
         this.setState({ mostrarConfirmacaoSenha: !this.state.mostrarConfirmacaoSenha });
     }
 
-    render() {        return (
+    render() {        
+        return (
             <Screan>
                 <HeaderTitle title="Novo Usuário"/>
                 <Formik
                     validationSchema={ this.validatorSchema }
                     initialValues={ this.initialValues }
-                    onSubmit={ values => this.cadastrarAsync(values) }
+                    
+                    validateOnChange={ this.state.mostrarErros }
+                    validateOnBlur={ this.state.mostrarErros }
+
+                    onSubmit={ (values, props) => this.cadastrarAsync(values, props) }
                 >
                     { (props) => this.fields(props) }
                 </Formik>
@@ -133,7 +139,10 @@ class CreateUserScrean extends Component {
                 <View>
                     <Button
                         label="CRIAR CONTA"
-                        onPress={ handleSubmit }
+                        onPress={ ev => {
+                            this.setState({ mostrarErros: true });
+                            handleSubmit(ev);
+                        } }
                     />
                     <Button outlined
                         label="CANCELAR"
@@ -145,12 +154,13 @@ class CreateUserScrean extends Component {
         );
     }
 
-    async cadastrarAsync(values) {
+    async cadastrarAsync(values, { resetForm }) {
         const { cadastrarAsync, navigation } = this.props;
         this.setState({ loading: true });
         try {
             await cadastrarAsync(values);
             navigation.replace('Ambiences');
+            resetForm();
         } catch (error) {
             this.openSnackbar(this.getMessageByError(error.code));
         }

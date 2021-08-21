@@ -1,4 +1,4 @@
-import { USUARIO_LOGIN, USUARIO_LOGOUT } from './user-actions-type';
+import { USUARIO_LOGIN, USUARIO_LOGOUT } from './usuario-actions-type';
 import { ReducerBase } from "../../common/reducers/reducer";
 
 class UserReducer extends ReducerBase { 
@@ -9,7 +9,7 @@ class UserReducer extends ReducerBase {
     execute(_, action) { 
         switch(action.type) {
             case USUARIO_LOGIN:
-                return action.user;
+                return action.usuario;
             case USUARIO_LOGOUT:
             default:
                 return this.initialState;

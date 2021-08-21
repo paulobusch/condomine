@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { StyleSheet, View } from "react-native";
 import { Snackbar } from "react-native-paper";
 import { connect } from "react-redux";
+import { Formik } from 'formik';
+import * as yup from 'yup';
 
 import { displayName } from '../../app.json';
 import Button from "../components/button";
@@ -11,7 +13,7 @@ import Separator from "../components/separator";
 import TextInput from "../components/text-input";
 import TextInputIcon from "../components/text-input-icon";
 
-import { setField, loginAsync } from '../reducers/login-form/login-form-actions';
+import { loginAsync } from '../reducers/usuario/usuario-actions';
 
 class LoginScreen extends Component {
     constructor(props) {
@@ -19,44 +21,82 @@ class LoginScreen extends Component {
 
         this.state = { 
             loading: false,
-            showPassword: false,
+            mostrarErros: false,
+            mostrarSenha: false,
             showSnackbar: false,
             message: ''
         };
+        this.initialValues = { email: '', senha: '' };
+        this.validatorSchema = yup.object()
+            .shape({
+                email: yup
+                    .string()
+                    .email("E-mail inválido. Utilize este formato exemplo@email.com")
+                    .required('O campo é obrigatório'),
+                senha: yup
+                    .string()
+                    .required('O campo é obrigatório')
+            });
     }
 
-    togglePassword() {
-        this.setState({ showPassword: !this.state.showPassword });
+    toggleSenha() {
+        this.setState({ mostrarSenha: !this.state.mostrarSenha });
     }
 
     render() {
-        const { loginForm, setField, navigation } = this.props;
-
         return (
             <Screan style={ styles.container }>
                 <HeaderTitle title={ displayName }/>
+                <Formik
+                    validationSchema={ this.validatorSchema }
+                    initialValues={ this.initialValues }
+                    
+                    validateOnChange={ this.state.mostrarErros }
+                    validateOnBlur={ this.state.mostrarErros }
+
+                    onSubmit={ (values, props) => this.loginAsync(values, props) }
+                >
+                    { (props) => this.fields(props) }
+                </Formik>
+            </Screan>
+        );
+    }
+
+    fields(props) {
+        const { navigation } = this.props;
+        const { handleChange, handleBlur, handleSubmit, values, errors } = props;
+
+        return (
+            <>
                 <View style={ styles.form }>
                     <TextInput 
                         label="E-main"
                         style={ { marginTop: 0 } }
-                        value={ loginForm.email }
-                        keyboardType="email-address"
+                        value={ values.email }
+                        error={ errors.email }
+                        onChangeText={ handleChange('email') }
+                        onBlur={ handleBlur('email') }
                         autoCapitalize="none"
-                        onChangeText={ value => setField('email', value) }
+                        keyboardType="email-address"
                         left={ <TextInputIcon name="envelope" /> }
                     />
                     <TextInput 
                         label="Senha"
-                        value={ loginForm.password }
-                        onChangeText={ value => setField('password', value) }
-                        secureTextEntry={ !this.state.showPassword }
+                        value={ values.senha }
+                        error={ errors.senha }
+                        onChangeText={ handleChange('senha') }
+                        onBlur={ handleBlur('senha') }
+                        secureTextEntry={ !this.state.mostrarSenha }
                         left={ <TextInputIcon name="lock" /> }
-                        right={ <TextInputIcon name="eye" onPress={ () => this.togglePassword() }/> }
+                        right={ <TextInputIcon name="eye" onPress={ () => this.toggleSenha() }/> }
                     />
                     <Button 
                         label="ENTRAR"
                         loading={ this.state.loading }
-                        onPress={ () => this.loginAsync() }
+                        onPress={ ev => {
+                            this.setState({ mostrarErros: true });
+                            handleSubmit(ev);
+                        } }
                     />
                 </View>
                 <View style={ styles.bottom }>
@@ -67,16 +107,17 @@ class LoginScreen extends Component {
                     />
                 </View>
                 { this.snackbar() }
-            </Screan>
+            </>
         );
     }
 
-    async loginAsync() {
-        const { loginForm, loginAsync, navigation } = this.props;
+    async loginAsync(values, { resetForm }) {
+        const { loginAsync, navigation } = this.props;
         this.setState({ loading: true });
         try {
-            await loginAsync(loginForm);
+            await loginAsync(values);
             navigation.replace('Ambiences');
+            resetForm();
         } catch (error) {
             this.openSnackbar(this.getMessageByError(error.code));
         }
@@ -130,5 +171,4 @@ const styles = StyleSheet.create({
     }
 });
 
-const mapStateToProps = state => ({ loginForm: state.loginForm });
-export default connect(mapStateToProps, { setField, loginAsync })(LoginScreen);
+export default connect(null, { loginAsync })(LoginScreen);

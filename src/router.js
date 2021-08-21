@@ -6,8 +6,8 @@ import AmbienceScreen from './screans/ambience-screan';
 import CreateUserScrean from "./screans/create-user-screan";
 
 const AppNavigator = createStackNavigator({
-  CreateUser: { screen: CreateUserScrean },
   Login: { screen: LoginScreen },
+  CreateUser: { screen: CreateUserScrean },
   Ambiences: { screen: AmbienceScreen },
 }, {
   defaultNavigationOptions: {

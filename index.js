@@ -9,6 +9,9 @@ import reduxThunk from 'redux-thunk';
 import rootReducer from './src/reducers';
 import CondomineApp from './src/condomine-app';
 import { name as appName } from './app.json';
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs(['Setting a timer']);
 
 const theme = {
   ...DefaultTheme,
