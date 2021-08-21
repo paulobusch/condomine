@@ -72,11 +72,11 @@ class LoginScreen extends Component {
     }
 
     async loginAsync() {
-        const { loginForm, loginAsync } = this.props;
+        const { loginForm, loginAsync, navigation } = this.props;
         this.setState({ loading: true });
         try {
             await loginAsync(loginForm);
-            this.props.navigation.replace('Ambiences');
+            navigation.replace('Ambiences');
         } catch (error) {
             this.openSnackbar(this.getMessageByError(error.code));
         }
@@ -93,7 +93,7 @@ class LoginScreen extends Component {
             case 'auth/wrong-password':
                 return 'Usuário ou Senha inválidos';
             default: 
-                return 'Erro desconhecido';
+                return 'Falha ao realizar login';
         }
     }
 

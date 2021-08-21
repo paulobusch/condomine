@@ -9,7 +9,7 @@ class LoginFormActions extends FormActionsBase {
         this.collection = firebaseApp.firestore().collection('Usuarios');
     }
 
-    salvarAsync = data => async dispatch => {
+    cadastrarAsync = data => async dispatch => {
         const { nomeCompleto, apartamento, email, senha } = data;
         const { user } = await firebaseApp.auth().createUserWithEmailAndPassword(email, senha);
         const usuario = { uid: user.uid, tipo: USUARIO_MORADOR, nomeCompleto, apartamento, email };
@@ -20,4 +20,4 @@ class LoginFormActions extends FormActionsBase {
     }
 }
 
-export const { setField, salvarAsync } = new LoginFormActions();
+export const { cadastrarAsync } = new LoginFormActions();

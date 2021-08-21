@@ -22,7 +22,8 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        maxHeight: 200
+        height: 150,
+        maxHeight: 150
     },
     title: {
         color: 'white'
