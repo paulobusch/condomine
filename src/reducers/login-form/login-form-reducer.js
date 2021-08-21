@@ -1,9 +1,8 @@
-import { bindAll } from "../../common/helpers/context";
 import { FormReducerBase } from "../../common/reducers/form-reducer";
 
 class LoginFormReducer extends FormReducerBase { 
     constructor() {
-        super({ email: '', password: '' });
+        super('login-form', { email: '', password: '' });
     }
 }
 

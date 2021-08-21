@@ -2,8 +2,9 @@ import { SET_FIELD, SET_DATA, RESET_FORM } from '../consts/form-action-types';
 import { ReducerBase } from './reducer';
 
 export class FormReducerBase extends ReducerBase {
-    constructor(initialState) {
+    constructor(formId, initialState) {
         super();
+        this.formId = formId;
         this.initialState = initialState;
     }
 
@@ -14,7 +15,6 @@ export class FormReducerBase extends ReducerBase {
             case SET_DATA:
                 return action.data;
             case RESET_FORM:
-                return this.initialState;
             default: 
                 return this.initialState;
         }
