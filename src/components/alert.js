@@ -19,18 +19,12 @@ const Alert = ({ title, message, visible, onDismiss, onConfirm, actions }) => {
                 }
                 <Dialog.Actions>
                     { actionsUse.map((a, index) => 
-                        <Button key={ index } onPress={ a.onPress } style={ styles.action } color={ a.color }>{ a.text }</Button>
+                        <Button key={ index } onPress={ a.onPress } color={ a.color }>{ a.text }</Button>
                     ) }
                 </Dialog.Actions>
             </Dialog>
         </Portal>
     );
 }
-
-const styles = StyleSheet.create({
-    action: {
-        fontWeight: 'bold'
-    }
-});
 
 export default Alert;

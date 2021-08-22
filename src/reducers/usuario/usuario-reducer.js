@@ -6,13 +6,13 @@ class UserReducer extends ReducerBase {
         super(null);
     }
 
-    execute(_, action) { 
+    execute(state, action) { 
         switch(action.type) {
             case USUARIO_LOGIN:
                 return action.usuario;
             case USUARIO_LOGOUT:
             default:
-                return this.initialState;
+                return state || this.initialState;
         }
     }
 }

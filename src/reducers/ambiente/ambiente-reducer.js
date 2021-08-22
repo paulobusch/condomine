@@ -6,12 +6,12 @@ class AmbienteReducer extends ReducerBase {
         super(null);
     }
 
-    execute(_, action) {
+    execute(state, action) {
         switch(action.type) {
             case SET_AMBIENTES:
                 return action.ambientes;
             default:
-                return this.initialState;
+                return state || this.initialState;
         }
     }
 }

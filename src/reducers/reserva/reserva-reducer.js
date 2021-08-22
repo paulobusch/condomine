@@ -6,12 +6,12 @@ class ReservaReducer extends ReducerBase {
         super(null);
     }
 
-    execute(_, action) {
+    execute(state, action) {
         switch(action.type) {
             case SET_RESERVA:
                 return action.reservas;
             default:
-                return this.initialState;
+                return state || this.initialState;
         }
     }
 }

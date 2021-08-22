@@ -7,15 +7,15 @@ import * as yup from 'yup';
 import moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { TextInputMask } from 'react-native-masked-text';
-import RNPickerSelect from 'react-native-picker-select';
 
 import Screan from '../components/screan';
 import HeaderTitle from '../components/header';
 import Button from "../components/buttons/button";
 import TextInput from "../components/text-input/text-input";
 import TextInputIcon from "../components/text-input/text-input-icon";
-import PickerSelect from "../components/select";
+import Dropdown from '../components/dropdown';
 
+import { escutarAmbientesAsync } from '../reducers/ambiente/ambiente-actions';
 import { salvarAsync } from '../reducers/reserva/reserva-actions';
 
 class ReservaFormScrean extends Component {
@@ -32,7 +32,7 @@ class ReservaFormScrean extends Component {
         };
         this.initialValues = {
             data: '',
-            ambiente: null
+            ambiente: undefined
         };
         this.validatorSchema = yup.object()
             .shape({
@@ -41,8 +41,13 @@ class ReservaFormScrean extends Component {
                     .required('O campo é obrigatório'),
                 ambiente: yup
                     .object()
+                    .nullable(false)
                     .required('O campo é obrigatório')
             });
+    }
+
+    componentDidMount() {
+        this.props.escutarAmbientesAsync();
     }
 
     render() {
@@ -67,6 +72,7 @@ class ReservaFormScrean extends Component {
     fields(props) {
         const { navigation } = this.props;
         const { handleChange, handleBlur, handleSubmit, values, errors } = props;
+        const ambientes = (this.props.ambientes || []);
         return (
             <>
                 <TextInput 
@@ -93,16 +99,18 @@ class ReservaFormScrean extends Component {
                     left={ <TextInputIcon name="calendar" onPress={ () => this.openDatePicker() }/> }
                 />
                 { this.datePicker({ handleChange, values }) }
-                <PickerSelect
-                    placeholder={ { label: "Selecione um Ambiente" } }
-                    onValueChange={(value) => console.log(value)}
-                    items={[
-                        { label: 'Football', value: 'football' },
-                        { label: 'Baseball', value: 'baseball' },
-                        { label: 'Hockey', value: 'hockey' },
-                    ]}
+                
+                <Dropdown
+                    data={ ambientes }
+                    value={ values.ambiente }
+                    error={ errors.ambiente }
+                    onSelect={ value => handleChange('ambiente')({ target: { value } }) }
+                    rowTextForSelection={ ambiente => ambiente.nome }
+                    buttonTextAfterSelection={ ambiente => ambiente.nome }
+                    label="Selecione um Ambiente..."
                     left={ <TextInputIcon name="building"/> }
                 />
+                
                 <Button
                     label="CRIAR RESERVA"
                     loading={ this.state.loading }
@@ -184,4 +192,4 @@ class ReservaFormScrean extends Component {
 }
 
 const mapStateToProps = state => ({ ambientes: state.ambientes });
-export default connect(mapStateToProps, { salvarAsync })(ReservaFormScrean);
+export default connect(mapStateToProps, { salvarAsync, escutarAmbientesAsync })(ReservaFormScrean);

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { AppRegistry } from 'react-native';
-import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import { DefaultTheme, Provider as PaperProvider, ThemeProvider } from 'react-native-paper';
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { Provider as StoreProvider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
@@ -37,7 +37,9 @@ export default function Main() {
         settings={ { icon: props => <AwesomeIcon {...props} style={ { opacity: .5 } }/> } } 
         theme={ theme }
       >
-        <CondomineApp />
+        <ThemeProvider theme={ theme }>
+          <CondomineApp />
+        </ThemeProvider>
       </PaperProvider>
     </StoreProvider>
   );
