@@ -13,9 +13,9 @@ import Message from '../components/message';
 import Screan from '../components/screan';
 import Alert from '../components/alert';
 
-import { escutarAmbientesAsync, removerAsync } from '../reducers/ambiente/ambiente-actions';
+import { escutarReservasAsync, salvarAsync, cancelarAsync } from '../reducers/reserva/reserva-actions';
 
-class AmbienteScrean extends Component {
+class ReservaScrean extends Component {
     constructor(props) {
         super(props);
 
@@ -29,17 +29,17 @@ class AmbienteScrean extends Component {
     }
 
     componentDidMount() {
-        this.props.escutarAmbientesAsync();
+        this.props.escutarReservasAsync();
     }
     
     render() {
         const { navigation } = this.props;
         return (
             <Screan>
-                <HeaderTitle title="Ambientes"/>
+                <HeaderTitle title="Reservas"/>
                 { this.renderList() }
-                <MenuBar navigation={ navigation } habilitarCadastro="true" itemAtivo="Ambientes"/>
-                <FixedButtonIcon icon="plus" onPress={ () => navigation.navigate('AmbienteForm') }/>
+                <MenuBar navigation={ navigation } habilitarCadastro="true" itemAtivo="Reservas"/>
+                <FixedButtonIcon icon="plus" onPress={ () => navigation.navigate('ReservaForm') }/>
                 { this.snackbar() }
                 { this.alert() }
             </Screan>
@@ -47,19 +47,19 @@ class AmbienteScrean extends Component {
     }
 
     renderList() {
-        const { ambientes, navigation } = this.props;
+        const { reserva, navigation } = this.props;
         const listHeight = getListHeight();
-        if (ambientes === null) return <ActivityIndicator containerHeight={ listHeight }/>;
+        if (reserva === null) return <ActivityIndicator containerHeight={ listHeight }/>;
 
         return (
             <FlatList 
-                data={ ambientes }
+                data={ reserva }
                 style={ { maxHeight: listHeight } }
-                ListEmptyComponent={ <Message text="Nenhum Ambiente Cadastrado"/> }
+                ListEmptyComponent={ <Message text="Nenhuma Reserva Cadastrada"/> }
                 renderItem={ ({ item }) => 
-                    <AmbienteCard ambiente={ item } 
-                        onNavigate={ () => navigation.navigate('AmbienteForm', { ambiente: item }) }
-                        onRemove={ ambiente => this.confirmRemove(ambiente) }
+                    <AmbienteCard ambiente={ item.ambiente } 
+                        onNavigate={ () => navigation.navigate('ReservaForm', { reserva: item }) }
+                        onRemove={ reserva => this.confirmRemove(reserva) }
                     /> 
                 }
                 keyExtractor={ item => item.id }
@@ -67,15 +67,15 @@ class AmbienteScrean extends Component {
         );
     }
 
-    confirmRemove(ambiente) {
-        this.openAlert('Deseja Remover o Ambiente?', () => this.removerAsync(ambiente));
+    confirmRemove(reserva) {
+        this.openAlert('Deseja Cancelar a Reserva?', () => this.removerAsync(reserva));
     }
 
-    async removerAsync(ambiente) {
+    async removerAsync(reserva) {
         try {
-            await this.props.removerAsync(ambiente);
+            await this.props.removerAsync(reserva);
         } catch {
-            this.openSnackbar('Falha ao Remover Ambiente');
+            this.openSnackbar('Falha ao Cancelar Reserva');
         }
     }
 
@@ -119,5 +119,5 @@ class AmbienteScrean extends Component {
     }
 }
 
-const mapStateToProps = state => ({ ambientes: state.ambientes });
-export default connect(mapStateToProps, { escutarAmbientesAsync, removerAsync })(AmbienteScrean);
+const mapStateToProps = state => ({ reservas: state.reservas });
+export default connect(mapStateToProps, { escutarReservasAsync, salvarAsync, cancelarAsync })(ReservaScrean);

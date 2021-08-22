@@ -10,11 +10,14 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-community/datetimepicker": "^3.5.2",
     "firebase": "^8.8.1",
     "formik": "^2.2.9",
+    "moment": "^2.29.1",
     "react": "17.0.1",
     "react-native": "0.64.2",
     "react-native-gesture-handler": "^1.10.3",
+    "react-native-masked-text": "^1.13.0",
     "react-native-paper": "^4.9.2",
     "react-native-safe-area-context": "^3.3.0",
     "react-native-swipeout": "^2.3.6",

@@ -5,17 +5,11 @@ import { SET_AMBIENTES } from './ambiente-actions-type';
 class AmbienteActions extends ActionsBase { 
     constructor() {
         super();
-        this.collection = firebaseApp.database().ref('/Usuarios');
+        this.collection = firebaseApp.database().ref('/Ambientes');
     }
 
     escutarAmbientesAsync = () => async dispatch => {
-        // TODO: Remove this code
-        await firebaseApp.auth().signInWithEmailAndPassword('paulo202015@outlook.com.br', '12345678');
-
-        const { currentUser } = firebaseApp.auth();
         await this.collection
-            .child(currentUser.uid)
-            .child('Ambientes')
             .on('value', snapshot => {
                 const ambientes = snapshot.val() || { };
                 dispatch({ 
@@ -27,28 +21,17 @@ class AmbienteActions extends ActionsBase {
             });
     }
 
-    salvarAsync = ambiente => async dispatch => {
-        // TODO: Remove this code
-        await firebaseApp.auth().signInWithEmailAndPassword('paulo202015@outlook.com.br', '12345678');
-
-        const { currentUser } = firebaseApp.auth();
-        const collection = this.collection
-            .child(currentUser.uid)
-            .child('Ambientes');
-
+    salvarAsync = ambiente => async () => {
         if (ambiente.id) {
-            await collection.child(ambiente.id)
+            await this.collection.child(ambiente.id)
                 .set(ambiente);
         } else {
-            await collection.push(ambiente);
+            await this.collection.push(ambiente);
         }
     }
 
     removerAsync = ({ id }) => async () => {
-        const { currentUser } = firebaseApp.auth();
         await this.collection
-            .child(currentUser.uid)
-            .child('Ambientes')
             .child(id)
             .remove();
     }
