@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { TextInput as TextInputPaper } from 'react-native-paper';
 
+import { ActivityIndicator, Colors } from 'react-native-paper';
+
 type TextInputProps = React.ComponentProps<typeof TextInputPaper>;
 
 const TextInput = (props: TextInputProps) => {

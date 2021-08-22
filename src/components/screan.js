@@ -1,21 +1,28 @@
 import React from 'react';
 import { ScrollView, View } from 'react-native';
 import { withTheme } from 'react-native-paper';
-import { Dimensions, StatusBar } from 'react-native'; 
+import { getScreanHeight } from '../common/helpers/window';
 
 const Screan = props => {
-    const { colors } = props.theme;
-    const { height } = Dimensions.get('window');
-    const statusBarHeight = StatusBar.statusBarHeight || 24; 
+    const content = <Content { ...props }/>;
+    if (!props.scroll) return content;
     return (
         <ScrollView style={ props.style }>
-            <View style={ [{ 
-                backgroundColor: colors.background,
-                minHeight: height - statusBarHeight
-            }] }>
-                { props.children }
-            </View>
+            { content }
         </ScrollView>
+    );
+}
+
+const Content = props => {
+    const { colors } = props.theme;
+    const height = getScreanHeight(); 
+    return (
+        <View style={ [{ 
+            backgroundColor: colors.background,
+            minHeight: height
+        }] }>
+            { props.children }
+        </View>
     );
 }
 

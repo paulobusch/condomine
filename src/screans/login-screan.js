@@ -45,7 +45,7 @@ class LoginScreen extends Component {
 
     render() {
         return (
-            <Screan style={ styles.container }>
+            <Screan scroll style={ styles.container }>
                 <HeaderTitle title={ displayName }/>
                 <Formik
                     validationSchema={ this.validatorSchema }

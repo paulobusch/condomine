@@ -17,13 +17,15 @@ const HeaderTitle = props => {
     );
 }
 
+export const HEADER_HEIGHT = 150;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        height: 150,
-        maxHeight: 150
+        height: HEADER_HEIGHT,
+        minHeight: HEADER_HEIGHT,
+        maxHeight: HEADER_HEIGHT
     },
     title: {
         color: 'white'

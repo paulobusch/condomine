@@ -3,9 +3,9 @@ import { USUARIO_LOGIN } from '../usuario/usuario-actions-type';
 import { USUARIO_MORADOR } from './usuario-type';
 import { ActionsBase } from '../../common/reducers/actions';
 
-class LoginFormActions extends ActionsBase { 
+class UserActions extends ActionsBase { 
     constructor() {
-        super('login-form');
+        super();
         this.collection = firebaseApp.database().ref('/Usuarios');
     }
 
@@ -26,4 +26,4 @@ class LoginFormActions extends ActionsBase {
     }
 }
 
-export const { loginAsync, cadastrarAsync } = new LoginFormActions();
+export const { loginAsync, cadastrarAsync } = new UserActions();

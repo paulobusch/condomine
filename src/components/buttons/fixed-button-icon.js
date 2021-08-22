@@ -18,7 +18,9 @@ const styles = StyleSheet.create({
         bottom: 35,
         left: '50%',
         padding: 25,
+        zIndex: 10,
         borderRadius: 50,
+        elevation: 5,
         transform: [{ translateX: -30 }]
     },
     icon: {

@@ -8,7 +8,7 @@ import FixedButtonIcon from '../buttons/fixed-button-icon';
 const MenuBar = ({ navigation, theme, itemAtivo }) => {
     const { colors } = theme;
     return (
-        <View style={ [styles.container, { backgroundColor: colors.background }] }>
+        <View style={ [styles.container, { backgroundColor: colors.primary }] }>
             <MenuBarItem 
                 label="Ambientes"
                 icon="building"
@@ -25,11 +25,13 @@ const MenuBar = ({ navigation, theme, itemAtivo }) => {
     );
 } 
 
+export const MENU_HEIGHT = 70;
 const styles = StyleSheet.create({
     container: {
         left: 0,
         bottom: 0,
         right: 0,
+        height: MENU_HEIGHT,
         position: 'absolute',
         flexDirection: 'row',
         justifyContent: 'space-evenly',

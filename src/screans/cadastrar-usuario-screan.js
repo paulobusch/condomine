@@ -65,7 +65,7 @@ class CreateUserScrean extends Component {
 
     render() {        
         return (
-            <Screan>
+            <Screan scroll>
                 <HeaderTitle title="Novo Usuário"/>
                 <Formik
                     validationSchema={ this.validatorSchema }
@@ -83,6 +83,7 @@ class CreateUserScrean extends Component {
     }
 
     fields(props) {
+        const { navigation } = this.props;
         const { handleChange, handleBlur, handleSubmit, values, errors } = props;
 
         return (
