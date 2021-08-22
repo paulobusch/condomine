@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -88,7 +88,7 @@ class CreateUserScrean extends Component {
 
         return (
             <>
-                <View style={ styles.form }>
+                <View style={ { flexGrow: 1 } }>
                     <TextInput 
                         style={ { marginTop: 0 } }
                         label="Nome Completo"
@@ -197,11 +197,5 @@ class CreateUserScrean extends Component {
         );
     }
 }
-
-const styles = StyleSheet.create({
-    form: {
-        flexGrow: 1
-    }
-});
 
 export default connect(null, { cadastrarAsync })(CreateUserScrean);

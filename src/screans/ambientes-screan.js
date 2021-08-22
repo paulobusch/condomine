@@ -29,7 +29,7 @@ class Ambientescrean extends Component {
                 <HeaderTitle title="Ambientes"/>
                 { this.renderList() }
                 <MenuBar navigation={ navigation } habilitarCadastro="true" itemAtivo="Ambientes"/>
-                <FixedButtonIcon icon="plus" onPress={ () => navigation.navigate('CadastrarAmbiente') }/>
+                <FixedButtonIcon icon="plus" onPress={ () => navigation.navigate('CadastroAmbiente') }/>
             </Screan>
         );
     }
