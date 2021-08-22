@@ -1,19 +1,35 @@
 import React from 'react';
-import { Button, Paragraph, Dialog } from 'react-native-paper';
+import { StyleSheet } from 'react-native';
+import { Button, Paragraph, Dialog, Portal } from 'react-native-paper';
 
-const Alert = props => {
-    const actions = props.actions || [{ text: 'Fechar', onPress: props.onClose }];
+const Alert = ({ title, message, visible, onDismiss, onConfirm, actions }) => {
+    const actionsUse = actions || [
+        { text: 'FECHAR', onPress: () => onDismiss(), color: '#818181' },
+        { text: 'CONFIRMAR', onPress: () => onConfirm(), color: 'red' }
+    ];
     return (
-        <Dialog visible={ props.visible } onDismiss={ props.onClose }>
-            <Dialog.Title>{ props.title }</Dialog.Title>
-                <Dialog.Content>
-                    <Paragraph>{ props.children }</Paragraph>
-                </Dialog.Content>
-                { actions.map(a => 
-                    <Dialog.Actions>
-                        <Button onPress={ a.onPress }>{ a.text }</Button>
-                    </Dialog.Actions>
-                ) }
-        </Dialog>
+        <Portal>
+            <Dialog visible={ visible } onDismiss={ onDismiss }>
+                { title && <Dialog.Title>{ title }</Dialog.Title> }
+                { message && 
+                    <Dialog.Content>
+                        <Paragraph>{ message }</Paragraph>
+                    </Dialog.Content>
+                }
+                <Dialog.Actions>
+                    { actionsUse.map((a, index) => 
+                        <Button key={ index } onPress={ a.onPress } style={ styles.action } color={ a.color }>{ a.text }</Button>
+                    ) }
+                </Dialog.Actions>
+            </Dialog>
+        </Portal>
     );
 }
+
+const styles = StyleSheet.create({
+    action: {
+        fontWeight: 'bold'
+    }
+});
+
+export default Alert;

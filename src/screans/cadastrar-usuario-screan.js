@@ -140,6 +140,7 @@ class CreateUserScrean extends Component {
                 <View>
                     <Button
                         label="CRIAR CONTA"
+                        loading={ this.state.loading }
                         onPress={ ev => {
                             this.setState({ mostrarErros: true });
                             handleSubmit(ev);
@@ -156,6 +157,7 @@ class CreateUserScrean extends Component {
     }
 
     async cadastrarAsync(values, { resetForm }) {
+        if (this.state.loading) return;
         const { cadastrarAsync, navigation } = this.props;
         this.setState({ loading: true });
         try {

@@ -12,19 +12,23 @@ const FixedButtonIcon = ({ icon, theme, onPress }) => {
     );
 }
 
+const FIXED_BUTTON_SIZE = 65;
 const styles = StyleSheet.create({
     button: {
         position: 'absolute',
         bottom: 35,
         left: '50%',
-        padding: 25,
-        zIndex: 10,
-        borderRadius: 50,
-        elevation: 5,
-        transform: [{ translateX: -30 }]
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: FIXED_BUTTON_SIZE,
+        height: FIXED_BUTTON_SIZE,
+        zIndex: 15,
+        borderRadius: FIXED_BUTTON_SIZE / 2,
+        transform: [{ translateX: -FIXED_BUTTON_SIZE / 2 }]
     },
     icon: {
-        fontSize: 20
+        fontSize: 18
     }
 });
 

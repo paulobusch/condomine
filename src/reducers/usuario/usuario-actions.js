@@ -14,7 +14,7 @@ class UserActions extends ActionsBase {
         const usuario = await this.collection.child(user.uid).once('value');
 
         dispatch({ type: USUARIO_LOGIN, usuario });
-    }    
+    }
     
     cadastrarAsync = data => async dispatch => {
         const { nomeCompleto, apartamento, email, senha } = data;

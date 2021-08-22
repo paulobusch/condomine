@@ -7,8 +7,8 @@ import CreateUserScrean from "./screans/cadastrar-usuario-screan";
 import AmbienteFormScrean from "./screans/ambiente-form-screan";
 
 const AppNavigator = createStackNavigator({
-  CadastroAmbiente: { screen: AmbienteFormScrean },
   Ambientes: { screen: Ambientescreen },
+  AmbienteForm: { screen: AmbienteFormScrean },
   CreateUser: { screen: CreateUserScrean },
   Login: { screen: LoginScreen },
 }, {

@@ -112,6 +112,7 @@ class LoginScreen extends Component {
     }
 
     async loginAsync(values, { resetForm }) {
+        if (this.state.loading) return;
         const { loginAsync, navigation } = this.props;
         this.setState({ loading: true });
         try {

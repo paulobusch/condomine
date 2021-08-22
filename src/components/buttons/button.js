@@ -29,15 +29,15 @@ const Button = (props: ButtonProps) => {
 const styles = StyleSheet.create({
     button: {
         marginHorizontal: 30,
-        marginVertical: 15
+        marginVertical: 15,
+        elevation: 5
     },
     content: {
         padding: 8
     },
     outlined: {
         borderColor: 'white',
-        borderWidth: 2,
-        elevation: 3
+        borderWidth: 2
     }
 });
 

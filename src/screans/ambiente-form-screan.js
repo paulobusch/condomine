@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import { Snackbar } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { Formik } from 'formik';
@@ -10,6 +10,8 @@ import Screan from '../components/screan';
 import Button from "../components/buttons/button";
 import TextInput from "../components/text-input/text-input";
 import TextInputIcon from "../components/text-input/text-input-icon";
+
+import { salvarAsync } from '../reducers/ambiente/ambiente-actions';
 
 class AmbienteFormScrean extends Component {
     constructor(props) {
@@ -38,12 +40,16 @@ class AmbienteFormScrean extends Component {
                 descricao: yup
                     .string()
             });
+            
+        const { params } = this.props.navigation.state;
+        this.editMode = !!params && !!params.ambiente;
+        if (this.editMode) this.initialValues = params.ambiente;
     }
 
     render() {
         return (
             <Screan scroll>
-                <HeaderTitle title="Novo Ambiente"/>
+                <HeaderTitle title={ `${this.editMode ? 'Edição de' : 'Novo'} Ambiente` }/>
                 <Formik
                     validationSchema={ this.validatorSchema }
                     initialValues={ this.initialValues }
@@ -51,7 +57,7 @@ class AmbienteFormScrean extends Component {
                     validateOnChange={ this.state.mostrarErros }
                     validateOnBlur={ this.state.mostrarErros }
 
-                    onSubmit={ (values, props) => this.cadastrarAsync(values, props) }
+                    onSubmit={ (values, props) => this.salvarAsync(values, props) }
                 >
                     { (props) => this.fields(props) }
                 </Formik>
@@ -95,7 +101,8 @@ class AmbienteFormScrean extends Component {
                 </View>
                 <View>
                     <Button
-                        label="CRIAR AMBIENTE"
+                        label={ `${this.editMode ? 'ALTERAR' : 'CRIAR'} AMBIENTE` }
+                        loading={ this.state.loading }
                         onPress={ ev => {
                             this.setState({ mostrarErros: true });
                             handleSubmit(ev);
@@ -111,15 +118,16 @@ class AmbienteFormScrean extends Component {
         );
     }
 
-    async cadastrarAsync(values, { resetForm }) {
-        const { cadastrarAsync, navigation } = this.props;
+    async salvarAsync(values, { resetForm }) {
+        if (this.state.loading) return;
+        const { salvarAsync, navigation } = this.props;
         this.setState({ loading: true });
         try {
-            await cadastrarAsync(values);
+            await salvarAsync(values);
             navigation.replace('Ambientes');
             resetForm();
         } catch (error) {
-            this.openSnackbar('Falha ao Cadastrar Ambiente');
+            this.openSnackbar('Falha ao Salvar Ambiente');
         }
         this.setState({ loading: false });
     }
@@ -145,4 +153,4 @@ class AmbienteFormScrean extends Component {
     }
 }
 
-export default connect(null, null)(AmbienteFormScrean);
+export default connect(null, { salvarAsync })(AmbienteFormScrean);
