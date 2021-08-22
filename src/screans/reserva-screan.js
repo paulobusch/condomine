@@ -6,7 +6,7 @@ import { getListHeight } from '../common/helpers/window';
 
 import ActivityIndicator from '../components/activity-indicator';
 import FixedButtonIcon from '../components/buttons/fixed-button-icon';
-import AmbienteCard from '../components/cards/ambiente-card';
+import ReservaCard from '../components/cards/reserva-card';
 import HeaderTitle from '../components/header';
 import MenuBar from '../components/menu-bar/menu-bar';
 import Message from '../components/message';
@@ -47,19 +47,19 @@ class ReservaScrean extends Component {
     }
 
     renderList() {
-        const { reserva, navigation } = this.props;
+        const { reservas, navigation } = this.props;
         const listHeight = getListHeight();
-        if (reserva === null) return <ActivityIndicator containerHeight={ listHeight }/>;
+        if (reservas === null) return <ActivityIndicator containerHeight={ listHeight }/>;
 
         return (
             <FlatList 
-                data={ reserva }
+                data={ reservas }
                 style={ { maxHeight: listHeight } }
                 ListEmptyComponent={ <Message text="Nenhuma Reserva Cadastrada"/> }
                 renderItem={ ({ item }) => 
-                    <AmbienteCard ambiente={ item.ambiente } 
+                    <ReservaCard reserva={ item } 
                         onNavigate={ () => navigation.navigate('ReservaForm', { reserva: item }) }
-                        onRemove={ reserva => this.confirmRemove(reserva) }
+                        onCancel={ reserva => this.confirmCancel(reserva) }
                     /> 
                 }
                 keyExtractor={ item => item.id }
@@ -67,16 +67,17 @@ class ReservaScrean extends Component {
         );
     }
 
-    confirmRemove(reserva) {
-        this.openAlert('Deseja Cancelar a Reserva?', () => this.removerAsync(reserva));
+    confirmCancel(reserva) {
+        this.openAlert('Deseja confirmar o cancelamento da reserva?', () => this.cancelAsync(reserva));
     }
 
-    async removerAsync(reserva) {
+    async cancelAsync(reserva) {
         try {
-            await this.props.removerAsync(reserva);
+            await this.props.cancelarAsync(reserva);
         } catch {
-            this.openSnackbar('Falha ao Cancelar Reserva');
+            this.openSnackbar('Falha ao cancelar reserva');
         }
+        this.closeAlert();
     }
 
     openSnackbar(message) {

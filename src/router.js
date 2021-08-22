@@ -9,8 +9,8 @@ import AmbienteFormScrean from "./screans/ambiente-form-screan";
 import ReservaFormScrean from "./screans/reserva-form-screan";
 
 const AppNavigator = createStackNavigator({
-  ReservaForm: { screen: ReservaFormScrean },
   Reservas: { screen: ReservaScreen },
+  ReservaForm: { screen: ReservaFormScrean },
   Ambientes: { screen: AmbienteScreen },
   AmbienteForm: { screen: AmbienteFormScrean },
   CreateUser: { screen: CreateUserScrean },

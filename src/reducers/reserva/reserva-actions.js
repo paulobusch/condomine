@@ -5,17 +5,11 @@ import { SET_RESERVA } from './reserva-actions-type';
 class ReservaActions extends ActionsBase { 
     constructor() {
         super();
-        this.collection = firebaseApp.database().ref('/Usuarios');
+        this.collection = firebaseApp.database().ref('/Reservas');
     }
 
     escutarReservasAsync = () => async dispatch => {
-        // TODO: Remove this code
-        await firebaseApp.auth().signInWithEmailAndPassword('paulo202015@outlook.com.br', '12345678');
-
-        const { currentUser } = firebaseApp.auth();
         await this.collection
-            .child(currentUser.uid)
-            .child('Reservas')
             .on('value', snapshot => {
                 const reservas = snapshot.val() || { };
                 dispatch({ 
@@ -27,28 +21,17 @@ class ReservaActions extends ActionsBase {
             });
     }
 
-    salvarAsync = reserva => async dispatch => {
-        // TODO: Remove this code
-        await firebaseApp.auth().signInWithEmailAndPassword('paulo202015@outlook.com.br', '12345678');
-
-        const { currentUser } = firebaseApp.auth();
-        const collection = this.collection
-            .child(currentUser.uid)
-            .child('Reservas');
-
+    salvarAsync = reserva => async () => {
         if (reserva.id) {
-            await collection.child(reserva.id)
+            await this.collection.child(reserva.id)
                 .set(reserva);
         } else {
-            await collection.push(reserva);
+            await this.collection.push(reserva);
         }
     }
 
     cancelarAsync = ({ id }) => async () => {
-        const { currentUser } = firebaseApp.auth();
         await this.collection
-            .child(currentUser.uid)
-            .child('Reservas')
             .child(id)
             .remove();
     }

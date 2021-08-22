@@ -10,11 +10,12 @@ const Alert = ({ title, message, visible, onDismiss, onConfirm, actions }) => {
     return (
         <Portal>
             <Dialog visible={ visible } onDismiss={ onDismiss }>
-                { title && <Dialog.Title>{ title }</Dialog.Title> }
-                { message && 
-                    <Dialog.Content>
-                        <Paragraph>{ message }</Paragraph>
-                    </Dialog.Content>
+                { !!title && <Dialog.Title>{ title }</Dialog.Title> }
+                { !!message && (
+                        <Dialog.Content>
+                            <Paragraph>{ message }</Paragraph>
+                        </Dialog.Content>
+                    )
                 }
                 <Dialog.Actions>
                     { actionsUse.map((a, index) => 

@@ -77,6 +77,7 @@ class AmbienteScrean extends Component {
         } catch {
             this.openSnackbar('Falha ao Remover Ambiente');
         }
+        this.closeAlert();
     }
 
     openSnackbar(message) {
