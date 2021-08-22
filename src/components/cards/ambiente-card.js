@@ -13,7 +13,7 @@ const AmbienteCard = ({ ambiente, theme, onNavigate, onRemove }) => {
     }];
 
     return (
-        <Swipeout right={ swipeButtons } autoClose={ true }>
+        <Swipeout backgroundColor={ theme.colors.background } right={ swipeButtons } autoClose={ true }>
             <TouchableOpacity style={ styles.card } onPress={ onNavigate }>
                 <Text style={ styles.text }>{ ambiente.nome }</Text>
                 <Text style={ styles.text }>{ ambiente.lotacao }</Text>
@@ -28,6 +28,7 @@ const IconDelete = () => (
     </View>
 );
 
+const MARGIN = 3;
 const styles = StyleSheet.create({
     card: {
         flex: 1,
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        margin: 1,
+        marginVertical: MARGIN,
         backgroundColor: 'white'
     },
     text: {
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
     },
     action: {
         flex: 1,
-        marginVertical: 1,
+        marginVertical: MARGIN,
         backgroundColor: 'red',
         justifyContent: 'center',
         alignItems: 'center'

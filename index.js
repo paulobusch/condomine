@@ -29,6 +29,7 @@ const theme = {
 };
 
 const store = applyMiddleware(reduxThunk)(createStore)(rootReducer);
+console.disableYellowBox = true;
 
 export default function Main() {
   return (

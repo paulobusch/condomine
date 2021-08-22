@@ -13,7 +13,7 @@ const ReservaCard = ({ reserva, theme, canCancel, onCancel }) => {
     }];
 
     return (
-        <Swipeout right={ canCancel ? swipeButtons : null } autoClose={ true }>
+        <Swipeout right={ canCancel ? swipeButtons : null } backgroundColor={ theme.colors.background } autoClose={ true }>
             <View style={ styles.card }>
                 <Text style={ styles.text }>{ reserva.ambiente.nome }</Text>
                 <Text style={ styles.text }>{ reserva.data }</Text>
@@ -28,6 +28,7 @@ const IconCancel = () => (
     </View>
 );
 
+const MARGIN = 3;
 const styles = StyleSheet.create({
     card: {
         flex: 1,
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        margin: 1,
+        marginVertical: MARGIN,
         backgroundColor: 'white'
     },
     text: {
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
     },
     action: {
         flex: 1,
-        marginVertical: 1,
+        marginVertical: MARGIN,
         backgroundColor: 'red',
         justifyContent: 'center',
         alignItems: 'center'
