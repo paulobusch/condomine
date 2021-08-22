@@ -11,9 +11,10 @@ class UserActions extends ActionsBase {
 
     loginAsync = ({ email, senha }) => async dispatch => {
         const { user } = await firebaseApp.auth().signInWithEmailAndPassword(email, senha);
-        const usuario = await this.collection.child(user.uid).once('value');
+        const usuario = (await this.collection.child(user.uid).once('value')).toJSON();
 
         dispatch({ type: USUARIO_LOGIN, usuario });
+        return usuario;
     }
     
     cadastrarAsync = data => async dispatch => {
@@ -24,6 +25,12 @@ class UserActions extends ActionsBase {
 
         dispatch({ type: USUARIO_LOGIN, usuario });
     }
+
+    async getCurrentUserAsync() {
+        const { currentUser } = firebaseApp.auth();
+        const collection = firebaseApp.database().ref('/Usuarios');
+        return (await collection.child(currentUser.uid).once('value')).toJSON();
+    }
 }
 
-export const { loginAsync, cadastrarAsync } = new UserActions();
+export const { loginAsync, cadastrarAsync, getCurrentUserAsync } = new UserActions();

@@ -14,6 +14,7 @@ import TextInput from "../components/text-input/text-input";
 import TextInputIcon from "../components/text-input/text-input-icon";
 
 import { loginAsync } from '../reducers/usuario/usuario-actions';
+import { USUARIO_ADMINISTRADOR } from "../reducers/usuario/usuario-type";
 
 class LoginScreen extends Component {
     constructor(props) {
@@ -116,8 +117,8 @@ class LoginScreen extends Component {
         const { loginAsync, navigation } = this.props;
         this.setState({ loading: true });
         try {
-            await loginAsync(values);
-            navigation.replace('Ambientes');
+            const usuario = await loginAsync(values);
+            navigation.replace(usuario.tipo === USUARIO_ADMINISTRADOR ? 'Ambientes' : 'Reservas');
             resetForm();
         } catch (error) {
             this.openSnackbar(this.getMessageByError(error.code));

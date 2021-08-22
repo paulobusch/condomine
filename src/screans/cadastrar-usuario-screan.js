@@ -162,7 +162,7 @@ class CreateUserScrean extends Component {
         this.setState({ loading: true });
         try {
             await cadastrarAsync(values);
-            navigation.replace('Ambientes');
+            navigation.replace('Reservas');
             resetForm();
         } catch (error) {
             this.openSnackbar(this.getMessageByError(error.code));

@@ -4,7 +4,7 @@ import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Swipeout from 'react-native-swipeout';
 import { withTheme } from 'react-native-paper';
 
-const ReservaCard = ({ reserva, theme, onNavigate, onCancel }) => {
+const ReservaCard = ({ reserva, theme, canCancel, onCancel }) => {
     let swipeButtons = [{
         underlayColor: theme.colors.background,
         backgroundColor: theme.colors.background,
@@ -13,11 +13,11 @@ const ReservaCard = ({ reserva, theme, onNavigate, onCancel }) => {
     }];
 
     return (
-        <Swipeout right={ swipeButtons } autoClose={ true }>
-            <TouchableOpacity style={ styles.card } onPress={ onNavigate }>
+        <Swipeout right={ canCancel ? swipeButtons : null } autoClose={ true }>
+            <View style={ styles.card }>
                 <Text style={ styles.text }>{ reserva.ambiente.nome }</Text>
                 <Text style={ styles.text }>{ reserva.data }</Text>
-            </TouchableOpacity>
+            </View>
         </Swipeout>
     );
 }

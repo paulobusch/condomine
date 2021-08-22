@@ -9,12 +9,12 @@ import AmbienteFormScrean from "./screans/ambiente-form-screan";
 import ReservaFormScrean from "./screans/reserva-form-screan";
 
 const AppNavigator = createStackNavigator({
+  Login: { screen: LoginScreen },
   ReservaForm: { screen: ReservaFormScrean },
   Reservas: { screen: ReservaScreen },
   Ambientes: { screen: AmbienteScreen },
   AmbienteForm: { screen: AmbienteFormScrean },
   CreateUser: { screen: CreateUserScrean },
-  Login: { screen: LoginScreen },
 }, {
   defaultNavigationOptions: {
     headerShown: false

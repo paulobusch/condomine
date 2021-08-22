@@ -14,6 +14,7 @@ import Screan from '../components/screan';
 import Alert from '../components/alert';
 
 import { escutarReservasAsync, salvarAsync, cancelarAsync } from '../reducers/reserva/reserva-actions';
+import { USUARIO_ADMINISTRADOR, USUARIO_MORADOR } from '../reducers/usuario/usuario-type';
 
 class ReservaScrean extends Component {
     constructor(props) {
@@ -33,13 +34,13 @@ class ReservaScrean extends Component {
     }
     
     render() {
-        const { navigation } = this.props;
+        const { navigation, usuario } = this.props;
         return (
             <Screan>
                 <HeaderTitle title="Reservas"/>
                 { this.renderList() }
-                <MenuBar navigation={ navigation } habilitarCadastro="true" itemAtivo="Reservas"/>
-                <FixedButtonIcon icon="plus" onPress={ () => navigation.navigate('ReservaForm') }/>
+                { usuario.tipo === USUARIO_ADMINISTRADOR && <MenuBar navigation={ navigation } itemAtivo="Reservas"/> }
+                { usuario.tipo === USUARIO_MORADOR && <FixedButtonIcon icon="plus" onPress={ () => navigation.navigate('ReservaForm') }/> }
                 { this.snackbar() }
                 { this.alert() }
             </Screan>
@@ -47,7 +48,7 @@ class ReservaScrean extends Component {
     }
 
     renderList() {
-        const { reservas, navigation } = this.props;
+        const { reservas, usuario } = this.props;
         const listHeight = getListHeight();
         if (reservas === null) return <ActivityIndicator containerHeight={ listHeight }/>;
 
@@ -58,7 +59,7 @@ class ReservaScrean extends Component {
                 ListEmptyComponent={ <Message text="Nenhuma Reserva Cadastrada"/> }
                 renderItem={ ({ item }) => 
                     <ReservaCard reserva={ item } 
-                        onNavigate={ () => navigation.navigate('ReservaForm', { reserva: item }) }
+                        canCancel={ usuario.tipo === USUARIO_MORADOR }
                         onCancel={ reserva => this.confirmCancel(reserva) }
                     /> 
                 }
@@ -120,5 +121,5 @@ class ReservaScrean extends Component {
     }
 }
 
-const mapStateToProps = state => ({ reservas: state.reservas });
+const mapStateToProps = state => ({ usuario: state.usuario, reservas: state.reservas });
 export default connect(mapStateToProps, { escutarReservasAsync, salvarAsync, cancelarAsync })(ReservaScrean);

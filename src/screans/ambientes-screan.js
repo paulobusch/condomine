@@ -38,7 +38,7 @@ class AmbienteScrean extends Component {
             <Screan>
                 <HeaderTitle title="Ambientes"/>
                 { this.renderList() }
-                <MenuBar navigation={ navigation } habilitarCadastro="true" itemAtivo="Ambientes"/>
+                <MenuBar navigation={ navigation } itemAtivo="Ambientes"/>
                 <FixedButtonIcon icon="plus" onPress={ () => navigation.navigate('AmbienteForm') }/>
                 { this.snackbar() }
                 { this.alert() }
