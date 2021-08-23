@@ -72,7 +72,6 @@ class ReservaFormScrean extends Component {
     fields(props) {
         const { navigation } = this.props;
         const { handleChange, handleBlur, handleSubmit, values, errors } = props;
-        const ambientes = (this.props.ambientes || []);
         return (
             <>
                 <TextInput 
@@ -99,9 +98,8 @@ class ReservaFormScrean extends Component {
                     left={ <TextInputIcon name="calendar" onPress={ () => this.openDatePicker() }/> }
                 />
                 { this.datePicker({ handleChange, values }) }
-                
                 <Dropdown
-                    data={ ambientes }
+                    data={ this.obterAmbientesDisponiveis(values.data) }
                     value={ values.ambiente }
                     error={ errors.ambiente }
                     onSelect={ value => handleChange('ambiente')({ target: { value } }) }
@@ -110,7 +108,6 @@ class ReservaFormScrean extends Component {
                     label="Selecione um Ambiente..."
                     left={ <TextInputIcon name="building"/> }
                 />
-                
                 <Button
                     label="CRIAR RESERVA"
                     loading={ this.state.loading }
@@ -126,6 +123,14 @@ class ReservaFormScrean extends Component {
                 { this.snackbar() }
             </>
         );
+    }
+
+    obterAmbientesDisponiveis(data) {
+        const ambientes = (this.props.ambientes || []);
+        if (!data || !moment(data, this.dateFormat).isValid()) return ambientes;
+
+        const reservas = (this.props.reservas || []);
+        return ambientes.filter(a => !reservas.some(r => r.data === data && r.ambiente.id === a.id));
     }
 
     async salvarAsync(values, { resetForm }) {
@@ -191,5 +196,5 @@ class ReservaFormScrean extends Component {
     }
 }
 
-const mapStateToProps = state => ({ ambientes: state.ambientes });
+const mapStateToProps = state => ({ ambientes: state.ambientes, reservas: state.reservas });
 export default connect(mapStateToProps, { salvarAsync, escutarAmbientesAsync })(ReservaFormScrean);

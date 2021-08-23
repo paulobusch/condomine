@@ -11,8 +11,6 @@ class ReservaActions extends ActionsBase {
     }
 
     escutarReservasAsync = () => async dispatch => {
-        const currentUser = await getCurrentUserAsync();
-
         await this.collection
             .on('value', snapshot => {
                 const reservas = snapshot.val() || { };
@@ -21,7 +19,6 @@ class ReservaActions extends ActionsBase {
                     reservas: Object.keys(reservas)
                         .sort((a, b) => b.localeCompare(a))
                         .map(key => ({ ...reservas[key], id: key }))
-                        .filter(r => r.userId === currentUser.uid || currentUser.tipo === USUARIO_ADMINISTRADOR) 
                 });
             });
     }
@@ -33,7 +30,7 @@ class ReservaActions extends ActionsBase {
             await this.collection.child(reserva.id)
                 .set(reserva);
         } else {
-            await this.collection.push({ ...reserva, userId: currentUser.uid });
+            await this.collection.push({ ...reserva, usuario: currentUser });
         }
     }
 

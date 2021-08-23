@@ -59,6 +59,7 @@ class ReservaScrean extends Component {
                 ListEmptyComponent={ <Message text="Nenhuma Reserva Cadastrada"/> }
                 renderItem={ ({ item }) => 
                     <ReservaCard reserva={ item } 
+                        mostrarUsuario={ usuario.tipo === USUARIO_ADMINISTRADOR }
                         canCancel={ usuario.tipo === USUARIO_MORADOR }
                         onCancel={ reserva => this.confirmCancel(reserva) }
                     /> 
@@ -121,5 +122,11 @@ class ReservaScrean extends Component {
     }
 }
 
-const mapStateToProps = state => ({ usuario: state.usuario, reservas: state.reservas });
+const mapStateToProps = state => {
+    let { usuario, reservas } = state;
+    if (reservas && usuario.tipo !== USUARIO_ADMINISTRADOR)
+        reservas = reservas.filter(r => r.usuario.uid === usuario.uid);
+
+    return ({ usuario, reservas });
+};
 export default connect(mapStateToProps, { escutarReservasAsync, salvarAsync, cancelarAsync })(ReservaScrean);
